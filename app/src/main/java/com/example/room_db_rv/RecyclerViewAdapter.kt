@@ -3,11 +3,13 @@ package com.example.room_db_rv
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room_db_rv.db.UserEntity
-import kotlinx.android.synthetic.main.recyclerview_row.view.*
 
-class RecyclerViewAdapter(val listener: RowClickListener) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
+class RecyclerViewAdapter(val listener: RowClickListener) :
+    RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
 
     var items = ArrayList<UserEntity>()
 
@@ -21,7 +23,7 @@ class RecyclerViewAdapter(val listener: RowClickListener) : RecyclerView.Adapter
     ): RecyclerViewAdapter.MyViewHolder {
         val inflater =
             LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_row, parent, false)
-        return MyViewHolder(inflater,listener)
+        return MyViewHolder(inflater, listener)
     }
 
     override fun getItemCount(): Int {
@@ -29,16 +31,19 @@ class RecyclerViewAdapter(val listener: RowClickListener) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: RecyclerViewAdapter.MyViewHolder, position: Int) {
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             listener.onItemClickListener(items[position])
         }
         holder.bind(items[position])
     }
 
     class MyViewHolder(view: View, val listener: RowClickListener) : RecyclerView.ViewHolder(view) {
-        val tvName = view.tvName
-        val tvEmail = view.tvEmail
-        val deleteUserID = view.deleteUserID
+        val tvName: TextView = view.findViewById<TextView>(R.id.tvName)
+        val tvEmail: TextView = view.findViewById<TextView>(R.id.tvEmail)
+        val deleteUserID: ImageView = view.findViewById(R.id.deleteUserID)
+      //  val tvName = view.tvName
+     //   val tvEmail = view.tvEmail
+      //  val deleteUserID = view.deleteUserID
         fun bind(data: UserEntity) {
             tvName.text = data.name
             tvEmail.text = data.email
@@ -46,9 +51,9 @@ class RecyclerViewAdapter(val listener: RowClickListener) : RecyclerView.Adapter
         }
     }
 
-    interface RowClickListener{
+    interface RowClickListener {
         fun onDeleteUserClickListener(user: UserEntity)
-        fun onItemClickListener(user:UserEntity)
+        fun onItemClickListener(user: UserEntity)
     }
 
 }
